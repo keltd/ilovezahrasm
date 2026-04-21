@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ilovezahrasm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #ff69b4;
+      --secondary-color: #8b4469;
+      --dark-color: #3a1c2c;
+      --light-color: #fff0f5;
+      --background-color: #ffc8da;
+      --text-color: #4e2b4c;
+      --highlight-color: #ff2d75;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body, html {
+      font-family: 'Press Start 2P', cursive;
+      background: linear-gradient(-45deg, #ffc8da, #ffb0c3, #ff9eb5, #ffc8da);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      overflow-x: hidden;
+      color: var(--text-color);
+      height: 100%;
+      line-height: 1.6;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27"><path fill="%23ff69b4" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 24, auto;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    
+    .active {
+      display: flex;
+    }
+    
+    /* ========== TYPEWRITER + 3D HOVER TITLE ========== */
+    .typewriter-3d-title {
+      font-size: clamp(16px, 4vw, 24px);
+      margin-bottom: 30px;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid var(--highlight-color);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      color: var(--dark-color);
+    }
+    
+    /* 3D Hover Effect */
+    .typewriter-3d-title:hover {
+      transform: translateY(-5px);
+      text-shadow: 
+        1px 1px 0 #ff69b4,
+        2px 2px 0 #ff1493,
+        3px 3px 0 #c71585,
+        4px 4px 0 #8b4469,
+        5px 5px 0 #4a1a2e;
+      border-right-color: #ff1493;
+    }
+    
+    /* Blinking cursor animation */
+    @keyframes blinkCursor {
+      from, to { border-color: transparent; }
+      50% { border-color: var(--highlight-color); }
+    }
+    
+    /* ========== EFEK BUNGA SAAT KLIK ========== */
+    .click-flower {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      animation: flowerExplode 1.5s ease-out forwards;
+      font-size: 24px;
+    }
+    
+    @keyframes flowerExplode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx, 100px), var(--ty, -100px)) scale(1.5) rotate(360deg);
+      }
+    }
+    
+    .click-sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      animation: sparkleBurst 1s ease-out forwards;
+    }
+    
+    @keyframes sparkleBurst {
+      0% {
+        opacity: 1;
+        transform: scale(0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+    
+    /* Responsive fix for typewriter */
+    @media (max-width: 768px) {
+      .typewriter-3d-title {
+        white-space: normal;
+        word-break: keep-all;
+        text-align: center;
+        border-right: none;
+      }
+    }
+    
+    /* ========== SLIDESHOW GALLERY STYLES ========== */
+    .slideshow-container {
+      position: relative;
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      background: var(--light-color);
+      border: 5px solid var(--secondary-color);
+    }
+    
+    .slides {
+      display: none;
+      position: relative;
+      animation: slideFade 0.8s ease-in-out;
+    }
+    
+    .slides img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+    
+    @keyframes slideFade {
+      from {
+        opacity: 0.4;
+        transform: scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+      padding: 20px 10px 10px;
+      text-align: center;
+      font-size: 10px;
+      font-family: 'Press Start 2P', cursive;
+    }
+    
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,105,180,0.8);
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+    
+    .prev {
+      left: 10px;
+    }
+    
+    .next {
+      right: 10px;
+    }
+    
+    .prev:hover, .next:hover {
+      background-color: var(--highlight-color);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .dots-container {
+      text-align: center;
+      padding: 15px 0;
+    }
+    
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      margin: 0 5px;
+      background-color: #ffb6c1;
+      border-radius: 50%;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    
+    .dot.active, .dot:hover {
+      background-color: var(--highlight-color);
+      transform: scale(1.2);
+    }
+    
+    .slide-counter {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-family: 'Press Start 2P', cursive;
+      z-index: 10;
+    }
+    
+    .play-pause-btn {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(255,105,180,0.8);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 12px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .play-pause-btn:hover {
+      background: var(--highlight-color);
+      transform: scale(1.05);
+    }
+    
+    .love-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    
+    .floating-slide-heart {
+      position: absolute;
+      font-size: 20px;
+      pointer-events: none;
+      animation: floatSlideHeart 2s ease-out forwards;
+    }
+    
+    @keyframes floatSlideHeart {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1);
+      }
+    }
+    
+    h2 {
+      font-size: clamp(16px, 4vw, 24px);
+      margin-bottom: 30px;
+      color: var(--dark-color);
+      animation: neonPulse 1.5s ease-in-out infinite alternate, bounce 1s;
+    }
+    
+    @keyframes neonPulse {
+      from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff69b4, 0 0 15px #ff69b4;
+      }
+      to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff2d75, 0 0 30px #ff2d75;
+      }
+    }
+    
+    .card {
+      background: rgba(255, 240, 245, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 105, 180, 0.3);
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 30px;
+      box-shadow: 6px 6px 0 var(--secondary-color);
+      animation: slideUp 0.7s;
+      border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 8px 8px 0 var(--secondary-color);
+    }
+    
+    .card p {
+      font-size: clamp(10px, 2.5vw, 14px);
+      margin-bottom: 15px;
+      color: var(--text-color);
+      text-align: left;
+      line-height: 1.8;
+    }
+    
+    .card p strong {
+      color: var(--highlight-color);
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: 2px solid white;
+      padding: 12px 20px;
+      font-size: clamp(10px, 2.5vw, 12px);
+      cursor: pointer;
+      font-family: 'Press Start 2P', cursive;
+      box-shadow: 4px 4px 0 var(--secondary-color);
+      margin: 10px;
+      transition: all 0.3s;
+      animation: fadeIn 1s;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+    
+    button:hover {
+      background-color: #ff85c1;
+      transform: scale(1.05);
+      box-shadow: 6px 6px 0 var(--secondary-color);
+    }
+    
+    button:hover::after {
+      transform: translateX(0);
+    }
+    
+    button:active, .icon-button:active {
+      animation: clickWave 0.3s ease-out;
+    }
+    
+    @keyframes clickWave {
+      0% { transform: scale(1); }
+      50% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 5px rgba(255, 105, 180, 0.5);
+      }
+      100% { transform: scale(1); }
+    }
+    
+    /* ========== CUSTOM MUSIC PLAYER ========== */
+    .music-player {
+      background: rgba(255, 240, 245, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 2px solid var(--secondary-color);
+      box-shadow: 4px 4px 0 var(--secondary-color);
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .music-player .play-btn {
+      background: linear-gradient(135deg, var(--primary-color), var(--highlight-color));
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      margin: 0;
+    }
+    
+    .music-player .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(255,105,180,0.5);
+    }
+    
+    .music-player .play-btn i {
+      font-size: 18px;
+      color: white;
+    }
+    
+    /* Vinyl Disc Animation */
+    .vinyl-disc {
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at 30% 30%, #333, #111);
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 0 3px var(--primary-color), 0 0 0 6px var(--secondary-color);
+      animation: vinylSpin 2s linear infinite;
+      animation-play-state: paused;
+    }
+    
+    .vinyl-disc.playing {
+      animation-play-state: running;
+    }
+    
+    .vinyl-disc::after {
+      content: '❤️';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      color: var(--primary-color);
+    }
+    
+    @keyframes vinylSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Custom Volume Slider */
+    .volume-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,0.1);
+      padding: 5px 12px;
+      border-radius: 30px;
+    }
+    
+    .volume-wrapper i {
+      font-size: 14px;
+      color: var(--secondary-color);
+    }
+    
+    .volume-slider {
+      -webkit-appearance: none;
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--highlight-color));
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      box-shadow: 0 0 5px var(--highlight-color);
+      transition: all 0.2s;
+    }
+    
+    .volume-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: var(--highlight-color);
+    }
+    
+    /* Music Info Text */
+    .music-info {
+      font-size: 8px;
+      color: var(--text-color);
+      text-align: left;
+      line-height: 1.4;
+    }
+    
+    .music-info .song-title {
+      font-weight: bold;
+      color: var(--highlight-color);
+      font-size: 9px;
+    }
+    
+    /* Equalizer Animation */
+    .equalizer {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 20px;
+    }
+    
+    .equalizer span {
+      width: 3px;
+      height: 100%;
+      background: var(--primary-color);
+      border-radius: 2px;
+      animation: equalize 0.8s ease-in-out infinite alternate;
+      animation-play-state: paused;
+    }
+    
+    .equalizer.playing span {
+      animation-play-state: running;
+    }
+    
+    .equalizer span:nth-child(1) { animation-delay: 0s; height: 10px; }
+    .equalizer span:nth-child(2) { animation-delay: 0.2s; height: 15px; }
+    .equalizer span:nth-child(3) { animation-delay: 0.4s; height: 8px; }
+    .equalizer span:nth-child(4) { animation-delay: 0.1s; height: 12px; }
+    .equalizer span:nth-child(5) { animation-delay: 0.3s; height: 18px; }
+    
+    @keyframes equalize {
+      from { height: 5px; }
+      to { height: 18px; }
+    }
+    
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      animation: floatUp 2s ease-out forwards;
+      z-index: 10;
+    }
+    
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
+    }
+    
+    .floating-heart {
+      position: fixed;
+      font-size: 20px;
+      pointer-events: none;
+      animation: floatHeart 4s ease-out forwards;
+      z-index: 999;
+    }
+    
+    @keyframes floatHeart {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-200px) scale(1.5);
+      }
+    }
+    
+    .icon-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: bounce 1.2s;
+      margin: 20px 0;
+    }
+    
+    .icon-button {
+      font-size: clamp(24px, 8vw, 32px);
+      padding: 20px;
+      border: 5px solid var(--secondary-color);
+      background-color: #ffe4ed;
+      border-radius: 12px;
+      box-shadow: 4px 4px 0 #c35f8c;
+      cursor: pointer;
+      transition: all 0.3s;
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .icon-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+    
+    .icon-button:hover {
+      transform: scale(1.1);
+      box-shadow: 6px 6px 0 #c35f8c;
+    }
+    
+    .icon-button:hover::after {
+      transform: translateX(0);
+    }
+    
+    .icon-button:active {
+      transform: scale(0.95);
+    }
+    
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(60px, 80px));
+      gap: 10px;
+      margin: 20px auto;
+      animation: zoomIn 0.8s;
+    }
+    
+    .cell {
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%;
+      position: relative;
+      border: 3px solid var(--secondary-color);
+      background-color: var(--light-color);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 6px;
+    }
+    
+    .cell span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(20px, 6vw, 24px);
+    }
+    
+    .cell:hover {
+      background-color: #ffe0eb;
+      transform: scale(1.02);
+    }
+    
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(50px, 70px));
+      gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+      animation: zoomIn 0.8s;
+    }
+    
+    .emoji-card {
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%;
+      position: relative;
+      border: 3px solid var(--secondary-color);
+      background-color: var(--light-color);
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 8px;
+    }
+    
+    .emoji-card span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(20px, 6vw, 24px);
+      visibility: hidden;
+    }
+    
+    .emoji-card.flipped {
+      background-color: #ffb6c1;
+      transform: rotateY(180deg);
+    }
+    
+    .emoji-card.flipped span {
+      visibility: visible;
+    }
+
+    #puzzle-container {
+      width: 300px;
+      height: 300px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 4px;
+      margin: 20px auto;
+      background-color: var(--secondary-color);
+      padding: 8px;
+      border: 5px solid var(--dark-color);
+      box-shadow: 8px 8px 0 var(--dark-color);
+    }
+    
+    .puzzle-tile {
+      width: 100%;
+      height: 100%;
+      background-size: 300px 300px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      border: 2px solid var(--dark-color);
+      position: relative;
+      image-rendering: pixelated;
+    }
+    
+    .puzzle-tile:hover {
+      transform: scale(0.95);
+      border-color: var(--primary-color);
+    }
+    
+    .puzzle-empty {
+      background-color: #ffb6c1;
+      visibility: visible;
+      border: 2px dashed var(--secondary-color);
+    }
+    
+    #puzzle-controls {
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    #puzzle-moves {
+      font-size: 14px;
+      margin: 15px 0;
+      color: var(--dark-color);
+    }
+    
+    #puzzle-win {
+      font-size: 18px;
+      color: var(--highlight-color);
+      margin: 20px 0;
+      text-shadow: 2px 2px 0 var(--dark-color);
+      animation: blink 0.5s infinite alternate;
+      display: none;
+    }
+    
+    #puzzle-original {
+      width: 150px;
+      height: 150px;
+      border: 5px solid var(--secondary-color);
+      box-shadow: 4px 4px 0 var(--dark-color);
+      margin: 15px auto;
+      display: none;
+      image-rendering: pixelated;
+    }
+
+    #snake-game {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 20px auto;
+      border: 5px solid var(--secondary-color);
+      box-shadow: 6px 6px 0 var(--dark-color);
+      background-color: var(--light-color);
+    }
+    
+    #snake-canvas {
+      width: 100%;
+      height: 100%;
+    }
+    
+    #snake-score {
+      font-size: 14px;
+      margin: 10px 0;
+      color: var(--dark-color);
+    }
+    
+    #snake-game-over {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 182, 193, 0.8);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    
+    #snake-game-over h3 {
+      color: var(--highlight-color);
+      margin-bottom: 20px;
+      font-size: 18px;
+      text-shadow: 2px 2px 0 var(--dark-color);
+    }
+    
+    .snake-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+      margin: 20px auto;
+      width: 300px;
+    }
+    
+    .snake-control-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .snake-control-btn:active {
+      background-color: #ff85c1;
+    }
+    
+    .snake-control-btn.up {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    
+    .snake-control-btn.left {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    
+    .snake-control-btn.right {
+      grid-column: 3;
+      grid-row: 2;
+    }
+    
+    .snake-control-btn.down {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .game-title {
+      margin-bottom: 10px;
+      font-size: clamp(12px, 3vw, 16px);
+      color: var(--secondary-color);
+    }
+    
+    .game-status {
+      margin: 10px 0;
+      font-size: clamp(10px, 2.5vw, 12px);
+      min-height: 20px;
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      background-color: #f00;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+      animation: fall 3s linear forwards;
+    }
+    
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffc8da, #ff9eb5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
+    
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 20px;
+    }
+    
+    .loader-text {
+      font-size: 14px;
+      color: var(--dark-color);
+      animation: pulse 1.5s infinite;
+    }
+    
+    .trophy {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      animation: trophyPop 1s ease-out forwards;
+      z-index: 10000;
+      text-shadow: 0 0 20px gold;
+    }
+    
+    @keyframes trophyPop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.5);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+    
+    @keyframes slideUp {
+      from {transform: translateY(40px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+    
+    @keyframes zoomIn {
+      from {transform: scale(0.8); opacity: 0;}
+      to {transform: scale(1); opacity: 1;}
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes blink {
+      from { opacity: 1; }
+      to { opacity: 0.7; }
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .card { padding: 20px; }
+      .icon-buttons { gap: 15px; }
+      .icon-button { width: 70px; padding: 15px; }
+      #puzzle-container { width: 280px; height: 280px; }
+      .music-player { gap: 10px; padding: 8px 15px; }
+      .volume-slider { width: 70px; }
+      .slideshow-container { max-width: 400px; }
+    }
+    
+    @media (max-width: 480px) {
+      .card { padding: 15px; }
+      .icon-button { width: 60px; padding: 12px; font-size: 20px; }
+      #puzzle-container { width: 260px; height: 260px; }
+      button { padding: 10px 15px; font-size: 10px; }
+      .music-player { flex-wrap: wrap; border-radius: 20px; }
+      .vinyl-disc { width: 35px; height: 35px; }
+      .music-player .play-btn { width: 38px; height: 38px; }
+      .slideshow-container { max-width: 320px; }
+      .prev, .next { width: 30px; height: 30px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Tunggu Sayangg... </div>
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="musik.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="page active" id="home">
+    <h1 class="typewriter-3d-title" id="typewriter3dTitle"></h1>
+    <div class="icon-buttons">
+      <div class="icon-button" onclick="goToPage('game-menu')" title="Games">
+        <i class="fas fa-gamepad"></i>
+      </div>
+      <div class="icon-button" onclick="goToPage('page1')" title="Love Letter">
+        <i class="fas fa-heart"></i>
+      </div>
+      <div class="icon-button" onclick="goToPage('page2')" title="Gallery">
+        <i class="fas fa-images"></i>
+      </div>
+    </div>
+    
+    <!-- CUSTOM MUSIC PLAYER -->
+    <div class="music-player">
+      <div class="vinyl-disc" id="vinylDisc"></div>
+      
+      <button class="play-btn" id="playBtn">
+        <i class="fas fa-play"></i>
+      </button>
+      
+      <div class="music-info">
+        <div class="song-title">Aku Milikmu</div>
+        <div>Dewa 19</div>
+      </div>
+      
+      <div class="equalizer" id="equalizer">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      
+      <div class="volume-wrapper">
+        <i class="fas fa-volume-down"></i>
+        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.5">
+        <i class="fas fa-volume-up"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page1">
+    <div class="card">
+      <p id="loveLetterText"></p>
+    </div>
+    <button onclick="goToPage('home')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
+  <div class="page" id="page2">
+    <h1>10/10</h1>
+    
+    <!-- Slideshow Container -->
+    <div id="slideshow-container" class="slideshow-container"></div>
+    
+    <!-- Dots Indicator -->
+    <div id="slideshow-dots" class="dots-container"></div>
+    
+  
+    <button onclick="spawnEmoji()"><i class="fas fa-heart"></i></button>
+    <button onclick="goToPage('home')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
+  <div class="page" id="game-menu">
+    <h1>PILIH GAME! 🎮</h1>
+    <div class="icon-buttons">
+      <div class="icon-button" onclick="goToPage('game-ttt')" title="Tic Tac Toe">
+        <i class="fas fa-times"></i><i class="far fa-circle"></i>
+      </div>
+      <div class="icon-button" onclick="goToPage('game-emoji')" title="Memory Game">
+        <i class="fas fa-brain"></i>
+      </div>
+      <div class="icon-button" onclick="goToPage('game-puzzle')" title="Sliding Puzzle">
+        <i class="fas fa-puzzle-piece"></i>
+      </div>
+      <div class="icon-button" onclick="goToPage('game-snake')" title="Snake Game">
+        <i class="fas fa-worm"></i>
+      </div>
+    </div>
+    <button onclick="goToPage('home')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
+  <div class="page" id="game-ttt">
+    <h2 class="game-title">🎯 TIC TAC TOE 🎯</h2>
+    <div class="game-status" id="tttStatus">Giliran: X</div>
+    <div id="game-board"></div>
+    <button onclick="resetGame()"><i class="fas fa-redo"></i> Ulangi</button>
+    <button onclick="goToPage('game-menu')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
+  <div class="page" id="game-emoji">
+    <h2 class="game-title">🧠 EMOJI MEMORY GAME 🧠</h2>
+    <div class="game-status" id="emojiStatus">Temukan semua pasangan!</div>
+    <div class="emoji-grid" id="emojiGrid"></div>
+    <button onclick="startEmojiGame()"><i class="fas fa-redo"></i> Ulangi</button>
+    <button onclick="goToPage('game-menu')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
+  <div class="page" id="game-puzzle">
+    <h2 class="game-title">🧩 SLIDING PUZZLE 🧩</h2>
+    <div class="game-status" id="puzzle-moves">Langkah: 0</div>
+    <div id="puzzle-container"></div>
+    <div id="puzzle-controls">
+      <button onclick="puzzleShuffle()"><i class="fas fa-random"></i> Acak</button>
+      <button onclick="showOriginal()"><i class="fas fa-eye"></i> Lihat Gambar</button>
+      <button onclick="goToPage('game-menu')"><i class="fas fa-arrow-left"></i> Kembali</button>
+    </div>
+    <img id="puzzle-original" src="puzzle.jpg">
+    <div id="puzzle-win">🎉 KAMU MENANG! 🎉</div>
+  </div>
+
+  <div class="page" id="game-snake">
+    <h2 class="game-title">🐍 SNAKE GAME 🐍</h2>
+    <div class="game-status" id="snake-score">Skor: 0</div>
+    <div id="snake-game">
+      <canvas id="snake-canvas"></canvas>
+      <div id="snake-game-over">
+        <h3>💀 GAME OVER! 💀</h3>
+        <button onclick="snakeReset()"><i class="fas fa-redo"></i> Main Lagi</button>
+      </div>
+    </div>
+    <div class="snake-controls">
+      <button class="snake-control-btn up" onclick="snakeChangeDirection('up')"><i class="fas fa-arrow-up"></i></button>
+      <button class="snake-control-btn left" onclick="snakeChangeDirection('left')"><i class="fas fa-arrow-left"></i></button>
+      <button class="snake-control-btn right" onclick="snakeChangeDirection('right')"><i class="fas fa-arrow-right"></i></button>
+      <button class="snake-control-btn down" onclick="snakeChangeDirection('down')"><i class="fas fa-arrow-down"></i></button>
+    </div>
+    <button onclick="goToPage('game-menu')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
+  <script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(function() {
+          document.getElementById('loader').style.display = 'none';
+        }, 500);
+      }, 1000);
+    });
+
+    // ========== TYPEWRITER + 3D HOVER TITLE ==========
+    function typewriter3dTitle() {
+      const text = " I ❤️ ZAHRA";
+      const element = document.getElementById('typewriter3dTitle');
+      if (!element) return;
+      
+      let i = 0;
+      element.innerHTML = '';
+      element.style.borderRight = '3px solid var(--highlight-color)';
+      element.style.animation = 'blinkCursor 0.75s step-end infinite';
+      
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, 120);
+        } else {
+          element.style.borderRight = '3px solid transparent';
+          element.style.animation = 'none';
+          element.style.borderRight = '3px solid var(--highlight-color)';
+          element.style.animation = 'blinkCursor 0.75s step-end infinite';
+          // Tambahkan efek klik setelah title selesai
+          addTitleClickEffect();
+        }
+      }
+      type();
+    }
+
+    // ========== EFEK BUNGA SAAT KLIK JUDUL ==========
+    function createFlowerBurst(x, y) {
+      const flowers = ['🌸', '🌼', '🌻', '🌺', '🌸', '💐', '🌷', '🌹', '🌸', '✨', '⭐', '💖'];
+      const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ff85c1', '#ffc0cb'];
+      
+      // Buat 20-30 bunga/partikel
+      const count = 25 + Math.floor(Math.random() * 15);
+      
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const flower = document.createElement('div');
+          flower.className = 'click-flower';
+          
+          // Pilih random bunga atau love
+          const isFlower = Math.random() > 0.3;
+          flower.innerHTML = isFlower ? 
+            flowers[Math.floor(Math.random() * flowers.length)] : 
+            ['❤️', '💖', '💕', '💗', '💘', '💝'][Math.floor(Math.random() * 6)];
+          
+          // Random arah
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 80 + Math.random() * 120;
+          const tx = Math.cos(angle) * distance * (Math.random() > 0.5 ? 1 : -1);
+          const ty = Math.sin(angle) * distance - 80;
+          
+          flower.style.left = x + 'px';
+          flower.style.top = y + 'px';
+          flower.style.setProperty('--tx', tx + 'px');
+          flower.style.setProperty('--ty', ty + 'px');
+          flower.style.fontSize = (15 + Math.random() * 20) + 'px';
+          
+          // Random warna untuk teks (kalo support)
+          if (!isFlower) {
+            flower.style.color = colors[Math.floor(Math.random() * colors.length)];
+            flower.style.textShadow = '0 0 5px gold';
+          }
+          
+          document.body.appendChild(flower);
+          setTimeout(() => flower.remove(), 1500);
+        }, i * 30);
+      }
+      
+      // Tambahan efek sparkle di tengah
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'click-sparkle';
+          sparkle.innerHTML = '✨';
+          sparkle.style.left = x + (Math.random() - 0.5) * 40 + 'px';
+          sparkle.style.top = y + (Math.random() - 0.5) * 40 + 'px';
+          sparkle.style.fontSize = (10 + Math.random() * 15) + 'px';
+          sparkle.style.position = 'fixed';
+          sparkle.style.pointerEvents = 'none';
+          sparkle.style.zIndex = '10000';
+          sparkle.style.animation = 'sparkleBurst 0.8s ease-out forwards';
+          document.body.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 800);
+        }, i * 20);
+      }
+    }
+
+    // Tambahkan event listener ke judul
+    function addTitleClickEffect() {
+      const title = document.getElementById('typewriter3dTitle');
+      if (title) {
+        title.style.cursor = 'pointer';
+        // Hapus event listener lama biar ga dobel
+        title.removeEventListener('click', titleClickHandler);
+        title.addEventListener('click', titleClickHandler);
+      }
+    }
+    
+    function titleClickHandler(e) {
+      // Dapatkan posisi klik
+      const rect = e.target.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      
+      createFlowerBurst(x, y);
+    }
+
+    // Typing Effect for Love Letter
+    function typeWriter(element, text, speed = 50) {
+      let i = 0;
+      element.innerHTML = '';
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      type();
+    }
+
+    const loveLetter = `aku ingin mencintaimu dengan sederhana; dengan kata yang tak sempat diucapkan oleh kayu kepada api yang menjadikannya abu.
+
+aku ingin mencintaimu dengan sederhana; dengan isyarat yang tak sempat disampaikan oleh awan kepada hujan yang menjadikannya tiada.`;
+    
+    function initLoveLetter() {
+      const letterElement = document.getElementById('loveLetterText');
+      if (letterElement) {
+        typeWriter(letterElement, loveLetter, 30);
+      }
+    }
+
+    // ========== CUSTOM MUSIC PLAYER ==========
+    const audio = document.getElementById('bg-music');
+    const playBtn = document.getElementById('playBtn');
+    const vinylDisc = document.getElementById('vinylDisc');
+    const equalizer = document.getElementById('equalizer');
+    const volumeSlider = document.getElementById('volumeSlider');
+    let isPlaying = false;
+
+    audio.volume = 0.5;
+
+    function updateMusicUI() {
+      if (isPlaying) {
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        vinylDisc.classList.add('playing');
+        equalizer.classList.add('playing');
+      } else {
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        vinylDisc.classList.remove('playing');
+        equalizer.classList.remove('playing');
+      }
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play().catch(e => console.log('Play error:', e));
+      }
+      isPlaying = !isPlaying;
+      updateMusicUI();
+    }
+
+    function changeVolume(volume) {
+      audio.volume = parseFloat(volume);
+    }
+
+    document.addEventListener('click', function initAudio() {
+      if (!isPlaying && audio.paused) {
+        audio.play().then(() => {
+          isPlaying = true;
+          updateMusicUI();
+        }).catch(e => console.log('Auto-play prevented:', e));
+      }
+    }, { once: true });
+
+    playBtn.addEventListener('click', toggleMusic);
+    volumeSlider.addEventListener('input', function(e) {
+      changeVolume(e.target.value);
+    });
+
+    audio.addEventListener('ended', function() {
+      isPlaying = false;
+      updateMusicUI();
+    });
+
+    // ========== SLIDESHOW GALLERY ==========
+    let slideIndex = 1;
+    let slideInterval;
+    let isAutoPlay = true;
+    const slideDelay = 3000;
+
+    const photos = [
+      { src: "face.jpg" },
+      { src: "face2.jpg"},
+      { src: "face3.jpg"},
+      { src: "face4.jpg"},
+    ];
+
+    function buildSlideshow() {
+      const slideshowContainer = document.getElementById('slideshow-container');
+      if (!slideshowContainer) return;
+      
+      slideshowContainer.innerHTML = '';
+      
+      photos.forEach((photo, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'slides';
+        slide.innerHTML = `
+          <img src="${photo.src}" alt="Foto ${index + 1}" onerror="this.src='https://placehold.co/600x400/ffb6c1/ff69b4?text=❤️+LOVE+❤️'">
+        `;
+        slideshowContainer.appendChild(slide);
+      });
+      
+      const counter = document.createElement('div');
+      counter.className = 'slide-counter';
+      counter.id = 'slide-counter';
+      slideshowContainer.appendChild(counter);
+      
+      const playPause = document.createElement('button');
+      playPause.className = 'play-pause-btn';
+      playPause.id = 'play-pause-slide';
+      playPause.innerHTML = '⏸';
+      playPause.onclick = toggleAutoPlay;
+      slideshowContainer.appendChild(playPause);
+      
+      const loveOverlay = document.createElement('div');
+      loveOverlay.className = 'love-overlay';
+      slideshowContainer.appendChild(loveOverlay);
+      
+      const dotsContainer = document.getElementById('slideshow-dots');
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        photos.forEach((_, index) => {
+          const dot = document.createElement('span');
+          dot.className = 'dot';
+          dot.onclick = () => currentSlide(index + 1);
+          dotsContainer.appendChild(dot);
+        });
+      }
+      
+      showSlides(slideIndex);
+      startAutoPlay();
+    }
+
+    function showSlides(n) {
+      const slides = document.getElementsByClassName('slides');
+      const dots = document.getElementsByClassName('dot');
+      const counter = document.getElementById('slide-counter');
+      
+      if (!slides.length) return;
+      
+      if (n > slides.length) slideIndex = 1;
+      if (n < 1) slideIndex = slides.length;
+      
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+      }
+      
+      slides[slideIndex - 1].style.display = 'block';
+      
+      if (dots.length) {
+        for (let i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(' active', '');
+        }
+        dots[slideIndex - 1].className += ' active';
+      }
+      
+      if (counter) {
+        counter.innerHTML = `${slideIndex} / ${slides.length} `;
+      }
+      
+      createSlideHearts();
+    }
+
+    function changeSlide(n) {
+      showSlides(slideIndex += n);
+      resetAutoPlay();
+    }
+
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+      resetAutoPlay();
+    }
+
+    function startAutoPlay() {
+      if (slideInterval) clearInterval(slideInterval);
+      slideInterval = setInterval(() => {
+        if (isAutoPlay) {
+          changeSlide(1);
+        }
+      }, slideDelay);
+    }
+
+    function stopAutoPlay() {
+      if (slideInterval) {
+        clearInterval(slideInterval);
+        slideInterval = null;
+      }
+    }
+
+    function resetAutoPlay() {
+      if (isAutoPlay) {
+        stopAutoPlay();
+        startAutoPlay();
+      }
+    }
+
+    function toggleAutoPlay() {
+      const btn = document.getElementById('play-pause-slide');
+      const galleryBtn = document.getElementById('playPauseBtnGallery');
+      isAutoPlay = !isAutoPlay;
+      
+      if (isAutoPlay) {
+        startAutoPlay();
+        if (btn) btn.innerHTML = '⏸';
+        if (galleryBtn) galleryBtn.innerHTML = '<i class="fas fa-pause"></i> Jeda';
+      } else {
+        stopAutoPlay();
+        if (btn) btn.innerHTML = '▶';
+        if (galleryBtn) galleryBtn.innerHTML = '<i class="fas fa-play"></i> Putar';
+      }
+    }
+
+    function createSlideHearts() {
+      const overlay = document.querySelector('.love-overlay');
+      if (!overlay) return;
+      
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'floating-slide-heart';
+          heart.innerHTML = ['❤️', '💖', '💕', '💗', '💘', '💝'][Math.floor(Math.random() * 6)];
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.bottom = '0px';
+          heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+          overlay.appendChild(heart);
+          setTimeout(() => heart.remove(), 2000);
+        }, i * 100);
+      }
+    }
+
+    function initGallery() {
+      slideIndex = 1;
+      isAutoPlay = true;
+      buildSlideshow();
+    }
+
+    function initTypewriterTitle() {
+      const homePage = document.getElementById('home');
+      if (homePage && homePage.classList.contains('active')) {
+        typewriter3dTitle();
+      }
+    }
+
+    // Page Navigation
+    function goToPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      
+      if (id === 'page1') {
+        initLoveLetter();
+      }
+      
+      if (id === 'page2') {
+        setTimeout(() => {
+          initGallery();
+        }, 100);
+      }
+      
+      if (id === 'home') {
+        setTimeout(typewriter3dTitle, 100);
+      }
+      
+      if (id === 'game-snake') {
+        snakeInit();
+      }
+      
+      if (id === 'game-emoji') {
+        startEmojiGame();
+      }
+      
+      window.scrollTo(0, 0);
+    }
+
+    setTimeout(initTypewriterTitle, 500);
+
+    // Floating Hearts di Gallery (untuk love rain)
+    let floatingHeartInterval = null;
+    
+    function startFloatingHearts() {
+      if (floatingHeartInterval) clearInterval(floatingHeartInterval);
+      floatingHeartInterval = setInterval(() => {
+        const activePage = document.querySelector('.page.active');
+        if (activePage && activePage.id === 'page2') {
+          for (let i = 0; i < 3; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = ['❤️', '💖', '💕', '💗', '💘', '💝', '💓', '💞'][Math.floor(Math.random() * 8)];
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.bottom = '0px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+          }
+        }
+      }, 800);
+    }
+    
+    startFloatingHearts();
+
+    // Love Emoji Effect
+    const loveEmojis = ["❤️","💖","💕","💓","💘","💝","💞","🧡","💗","💜","💙","💚","🤍"];
+    function spawnEmoji() {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const emoji = document.createElement("div");
+          emoji.classList.add("emoji");
+          const x = Math.random() * (window.innerWidth - 30);
+          emoji.style.left = x + "px";
+          emoji.style.top = window.innerHeight - 50 + "px";
+          emoji.innerHTML = loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
+          document.body.appendChild(emoji);
+          setTimeout(() => emoji.remove(), 2000);
+        }, i * 100);
+      }
+    }
+
+    function showTrophy() {
+      const trophy = document.createElement('div');
+      trophy.className = 'trophy';
+      trophy.innerHTML = '🏆✨🎉';
+      document.body.appendChild(trophy);
+      setTimeout(() => trophy.remove(), 1000);
+    }
+
+    // Tic Tac Toe Game
+    let currentPlayer = "X";
+    let board = ["", "", "", "", "", "", "", "", ""];
+    const gameBoard = document.getElementById("game-board");
+    const tttStatus = document.getElementById("tttStatus");
+
+    function renderBoard() {
+      gameBoard.innerHTML = "";
+      board.forEach((cell, i) => {
+        const div = document.createElement("div");
+        div.classList.add("cell");
+        const span = document.createElement("span");
+        span.textContent = cell;
+        div.appendChild(span);
+        div.onclick = () => makeMove(i);
+        gameBoard.appendChild(div);
+      });
+    }
+
+    function makeMove(index) {
+      if (board[index] !== "" || checkWin("X") || checkWin("O")) return;
+      
+      board[index] = currentPlayer;
+      renderBoard();
+      tttStatus.textContent = `Giliran: ${currentPlayer === "X" ? "O" : "X"}`;
+      
+      if (checkWin(currentPlayer)) {
+        setTimeout(() => {
+          tttStatus.textContent = `🎉 ${currentPlayer} MENANG! 🎉`;
+          createConfetti();
+          showTrophy();
+        }, 100);
+        return;
+      }
+      
+      if (!board.includes("")) {
+        setTimeout(() => {
+          tttStatus.textContent = "🤝 SERI! 🤝";
+        }, 100);
+        return;
+      }
+      
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      if (currentPlayer === "O") setTimeout(botMove, 500);
+    }
+
+    function botMove() {
+      let empty = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+      let choice = empty[Math.floor(Math.random() * empty.length)];
+      if (choice !== undefined) makeMove(choice);
+    }
+
+    function checkWin(p) {
+      const lines = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      return lines.some(line => line.every(i => board[i] === p));
+    }
+
+    function resetGame() {
+      board = ["", "", "", "", "", "", "", "", ""];
+      currentPlayer = "X";
+      tttStatus.textContent = "Giliran: X";
+      renderBoard();
+    }
+
+    // Match Emoji Game
+    const emojiGrid = document.getElementById("emojiGrid");
+    const emojiStatus = document.getElementById("emojiStatus");
+    const emojiChoices = ["💖", "🌹", "💘", "💕", "💓", "💝", "🌸", "💐"];
+    let selected = [];
+    let matchedPairs = 0;
+    let canFlip = true;
+
+    function startEmojiGame() {
+      emojiGrid.innerHTML = "";
+      matchedPairs = 0;
+      selected = [];
+      canFlip = true;
+      emojiStatus.textContent = "Temukan semua pasangan! 💕";
+      
+      let selectedEmojis = [...emojiChoices];
+      let deck = [...selectedEmojis, ...selectedEmojis].sort(() => 0.5 - Math.random());
+      
+      deck.forEach((emoji, idx) => {
+        const div = document.createElement("div");
+        div.classList.add("emoji-card");
+        const span = document.createElement("span");
+        span.textContent = emoji;
+        div.appendChild(span);
+        div.onclick = () => flipCard(div, emoji);
+        emojiGrid.appendChild(div);
+      });
+    }
+
+    function flipCard(card, emoji) {
+      if (!canFlip || card.classList.contains("flipped") || selected.length === 2) return;
+      
+      card.classList.add("flipped");
+      card.querySelector("span").style.visibility = "visible";
+      selected.push({ card, emoji });
+      
+      if (selected.length === 2) {
+        canFlip = false;
+        if (selected[0].emoji === selected[1].emoji) {
+          matchedPairs++;
+          selected[0].card.style.backgroundColor = "#ff85c1";
+          selected[1].card.style.backgroundColor = "#ff85c1";
+          selected = [];
+          canFlip = true;
+          
+          if (matchedPairs === 8) {
+            setTimeout(() => {
+              emojiStatus.textContent = "🎉 KAMU MENANG! 🎉";
+              createConfetti();
+              showTrophy();
+            }, 300);
+          }
+        } else {
+          setTimeout(() => {
+            selected.forEach(({ card }) => {
+              card.classList.remove("flipped");
+              card.querySelector("span").style.visibility = "hidden";
+            });
+            selected = [];
+            canFlip = true;
+          }, 600);
+        }
+      }
+    }
+
+    // SLIDING PUZZLE GAME
+    let puzzleState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+    let puzzleMoves = 0;
+    const puzzleContainer = document.getElementById('puzzle-container');
+    const puzzleMovesDisplay = document.getElementById('puzzle-moves');
+    const puzzleOriginal = document.getElementById('puzzle-original');
+    const puzzleWin = document.getElementById('puzzle-win');
+
+    function puzzleInit() {
+      puzzleContainer.innerHTML = '';
+      puzzleMoves = 0;
+      puzzleMovesDisplay.textContent = `Langkah: ${puzzleMoves}`;
+      puzzleWin.style.display = 'none';
+      puzzleOriginal.style.display = 'none';
+      
+      const img = new Image();
+      img.src = puzzleOriginal.src;
+      img.onload = function() {
+        const containerSize = 300;
+        const tileSize = containerSize / 3;
+        
+        for (let i = 0; i < 9; i++) {
+          const tile = document.createElement('div');
+          tile.className = puzzleState[i] === 0 ? 'puzzle-tile puzzle-empty' : 'puzzle-tile';
+          
+          if (puzzleState[i] !== 0) {
+            const row = Math.floor((puzzleState[i] - 1) / 3);
+            const col = (puzzleState[i] - 1) % 3;
+            tile.style.backgroundImage = `url(${puzzleOriginal.src})`;
+            tile.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
+            tile.style.backgroundSize = `${containerSize}px ${containerSize}px`;
+          }
+          
+          tile.dataset.index = i;
+          tile.dataset.value = puzzleState[i];
+          tile.addEventListener('click', puzzleMoveTile);
+          puzzleContainer.appendChild(tile);
+        }
+      };
+    }
+
+    function puzzleMoveTile(e) {
+      const clickedIndex = parseInt(e.target.dataset.index);
+      const emptyIndex = puzzleState.indexOf(0);
+      
+      if (puzzleIsAdjacent(clickedIndex, emptyIndex)) {
+        [puzzleState[clickedIndex], puzzleState[emptyIndex]] = [puzzleState[emptyIndex], puzzleState[clickedIndex]];
+        
+        puzzleMoves++;
+        puzzleMovesDisplay.textContent = `Langkah: ${puzzleMoves}`;
+        
+        puzzleInit();
+        
+        if (puzzleIsSolved()) {
+          puzzleWin.style.display = 'block';
+          puzzleOriginal.style.display = 'block';
+          createConfetti();
+          showTrophy();
+        }
+      }
+    }
+
+    function puzzleIsAdjacent(a, b) {
+      const rowA = Math.floor(a / 3);
+      const colA = a % 3;
+      const rowB = Math.floor(b / 3);
+      const colB = b % 3;
+      return (Math.abs(rowA - rowB) === 1 && colA === colB) || 
+             (Math.abs(colA - colB) === 1 && rowA === rowB);
+    }
+
+    function puzzleIsSolved() {
+      for (let i = 0; i < 8; i++) {
+        if (puzzleState[i] !== i + 1) return false;
+      }
+      return true;
+    }
+
+    function puzzleShuffle() {
+      for (let i = puzzleState.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [puzzleState[i], puzzleState[j]] = [puzzleState[j], puzzleState[i]];
+      }
+      puzzleInit();
+    }
+
+    function showOriginal() {
+      puzzleOriginal.style.display = puzzleOriginal.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // SNAKE GAME
+    const snakeCanvas = document.getElementById('snake-canvas');
+    const snakeCtx = snakeCanvas.getContext('2d');
+    const snakeScoreDisplay = document.getElementById('snake-score');
+    const snakeGameOver = document.getElementById('snake-game-over');
+    
+    const gridSize = 20;
+    let tileSize = 15;
+    let snake = [];
+    let food = {};
+    let direction = 'right';
+    let nextDirection = 'right';
+    let score = 0;
+    let gameSpeed = 100;
+    let gameLoop;
+    
+    const snakeEmojis = ["❤️", "💖", "💕", "💓", "💘", "💝", "💞"];
+    const foodEmojis = ["🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍒"];
+    
+    function snakeInit() {
+      snakeCanvas.width = 300;
+      snakeCanvas.height = 300;
+      tileSize = snakeCanvas.width / gridSize;
+      
+      snake = [
+        {x: 10, y: 10, emoji: snakeEmojis[0]},
+        {x: 9, y: 10, emoji: snakeEmojis[1]},
+        {x: 8, y: 10, emoji: snakeEmojis[2]}
+      ];
+      
+      generateFood();
+      
+      direction = 'right';
+      nextDirection = 'right';
+      score = 0;
+      gameSpeed = 100;
+      snakeScoreDisplay.textContent = `Skor: ${score}`;
+      snakeGameOver.style.display = 'none';
+      
+      if (gameLoop) clearInterval(gameLoop);
+      gameLoop = setInterval(updateGame, gameSpeed);
+      
+      drawGame();
+    }
+    
+    function generateFood() {
+      let validPosition = false;
+      let foodX, foodY;
+      
+      while (!validPosition) {
+        foodX = Math.floor(Math.random() * gridSize);
+        foodY = Math.floor(Math.random() * gridSize);
+        
+        validPosition = true;
+        for (let segment of snake) {
+          if (segment.x === foodX && segment.y === foodY) {
+            validPosition = false;
+            break;
+          }
+        }
+      }
+      
+      food = {
+        x: foodX,
+        y: foodY,
+        emoji: foodEmojis[Math.floor(Math.random() * foodEmojis.length)]
+      };
+    }
+    
+    function updateGame() {
+      direction = nextDirection;
+      
+      const head = {x: snake[0].x, y: snake[0].y};
+      
+      switch (direction) {
+        case 'up': head.y -= 1; break;
+        case 'down': head.y += 1; break;
+        case 'left': head.x -= 1; break;
+        case 'right': head.x += 1; break;
+      }
+      
+      if (head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize) {
+        gameOver();
+        return;
+      }
+      
+      for (let i = 0; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          gameOver();
+          return;
+        }
+      }
+      
+      if (head.x === food.x && head.y === food.y) {
+        snake.unshift({
+          x: head.x,
+          y: head.y,
+          emoji: snakeEmojis[Math.floor(Math.random() * snakeEmojis.length)]
+        });
+        
+        score += 10;
+        snakeScoreDisplay.textContent = `Skor: ${score}`;
+        
+        if (score % 50 === 0 && gameSpeed > 50) {
+          gameSpeed -= 10;
+          clearInterval(gameLoop);
+          gameLoop = setInterval(updateGame, gameSpeed);
+        }
+        
+        generateFood();
+      } else {
+        snake.unshift({
+          x: head.x,
+          y: head.y,
+          emoji: snakeEmojis[Math.floor(Math.random() * snakeEmojis.length)]
+        });
+        snake.pop();
+      }
+      
+      drawGame();
+    }
+    
+    function drawGame() {
+      snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+      
+      snake.forEach((segment) => {
+        snakeCtx.font = `${tileSize}px "Segoe UI Emoji"`;
+        snakeCtx.textAlign = 'center';
+        snakeCtx.textBaseline = 'middle';
+        snakeCtx.fillText(
+          segment.emoji, 
+          segment.x * tileSize + tileSize / 2, 
+          segment.y * tileSize + tileSize / 2
+        );
+      });
+      
+      snakeCtx.font = `${tileSize}px "Segoe UI Emoji"`;
+      snakeCtx.fillText(
+        food.emoji, 
+        food.x * tileSize + tileSize / 2, 
+        food.y * tileSize + tileSize / 2
+      );
+    }
+    
+    function gameOver() {
+      clearInterval(gameLoop);
+      snakeGameOver.style.display = 'flex';
+    }
+    
+    function snakeChangeDirection(newDirection) {
+      if (
+        (direction === 'up' && newDirection !== 'down') ||
+        (direction === 'down' && newDirection !== 'up') ||
+        (direction === 'left' && newDirection !== 'right') ||
+        (direction === 'right' && newDirection !== 'left')
+      ) {
+        nextDirection = newDirection;
+      }
+    }
+    
+    function snakeReset() {
+      snakeInit();
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (document.getElementById('game-snake').classList.contains('active')) {
+        switch(e.key) {
+          case 'ArrowUp': snakeChangeDirection('up'); break;
+          case 'ArrowDown': snakeChangeDirection('down'); break;
+          case 'ArrowLeft': snakeChangeDirection('left'); break;
+          case 'ArrowRight': snakeChangeDirection('right'); break;
+        }
+      }
+    });
+
+    function createConfetti() {
+      const colors = ['#ff0000', '#ff69b4', '#ff1493', '#ff00ff', '#ffc0cb'];
+      const emojis = ['❤️', '💖', '💕', '💘', '💝', '🌸', '🎉', '✨'];
+      
+      for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.classList.add('confetti');
+          confetti.style.left = Math.random() * window.innerWidth + 'px';
+          confetti.style.top = '-10px';
+          const size = Math.random() * 10 + 5;
+          confetti.style.width = size + 'px';
+          confetti.style.height = size + 'px';
+          
+          if (Math.random() > 0.5) {
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          } else {
+            confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            confetti.style.backgroundColor = 'transparent';
+            confetti.style.fontSize = size + 'px';
+            confetti.style.lineHeight = size + 'px';
+          }
+          
+          const duration = Math.random() * 3 + 2;
+          confetti.style.animationDuration = duration + 's';
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), duration * 1000);
+        }, i * 30);
+      }
+    }
+
+    // Initialize all games
+    renderBoard();
+    startEmojiGame();
+    puzzleInit();
+  </script>
+</body>
+</html>
